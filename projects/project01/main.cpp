@@ -8,9 +8,18 @@ I am responsibility for this code's functionality and accuracy rests entirely wi
 */
 #include <iostream>
 #include <vector>
+#include <sstream>
+#include <limits>
 
 enum class Cell { BLANK, X, O };
 enum class GameStatus { ONGOING, X_WON, O_WON, DRAW };
+
+void line()
+{
+    std::cout << std::endl;
+    std::cout << "---------------------------------------------------------" << std::endl;
+    std::cout << std::endl;
+}
 
 std::vector<std::vector<Cell>> makeBoard(int rows = 7, int columns = 6)
 {
@@ -30,23 +39,22 @@ void horizontalBar(int columnCount)
 void printBoard(const std::vector<std::vector<Cell>>& board)
 {
     int rowCount = board.size();
-    int columnCount = board[0].size();
+    int columnCount = board.at(0).size();
 
+    line();
     std::cout << "   ";
     for (int columnNumber = 1; columnNumber <= columnCount; columnNumber++)
     {
         std::cout << columnNumber << "   ";
     }
-    std::cout << "\n +";
 
     horizontalBar(columnCount);
-
     for (int rowIndex = 0; rowIndex < rowCount; rowIndex++)
     {
-        std::cout << rowIndex + 1 << "|";
+        std::cout << " |";
         for (int columnIndex = 0; columnIndex < columnCount; columnIndex++)
         {
-            Cell cell = board[rowIndex][columnIndex];
+            Cell cell = board.at(rowIndex).at(columnIndex);
 
             if (cell == Cell::O)
             {
@@ -60,28 +68,34 @@ void printBoard(const std::vector<std::vector<Cell>>& board)
             {
                 std::cout << "   ";
             }
+
             std::cout << "|";
         }
         horizontalBar(columnCount);
     }
+    line();
 }
 
-bool play(std::vector<std::vector<Cell>>& board, int row, int col, Cell token)
+bool play(std::vector<std::vector<Cell>>& board, int col, Cell token)
 {
     int width = board.at(0).size();
     int height = board.size();
-    if (row >= height || row < 0 || col >= width || col < 0)
+
+    if (col >= width || col < 0)
     {
         return false;
     }
 
-    Cell& cell = board.at(row).at(col);
-    if (cell != Cell::BLANK)
+    // Find the lowest available row in the selected column
+    for (int row = height - 1; row >= 0; row--)
     {
-        return false;
+        if (board.at(row).at(col) == Cell::BLANK)
+        {
+            board.at(row).at(col) = token;
+            return true;
+        }
     }
-    cell = token;
-    return true;
+    return false; // Column is full
 }
 
 Cell getCurrentToken(const std::vector<std::vector<Cell>>& board)
@@ -141,45 +155,79 @@ GameStatus checkWin(const std::vector<std::vector<Cell>>& board)
     return GameStatus::DRAW;
 }
 
+int getPositiveInteger(const std::string& prompt)
+{
+    int value;
+    std::string input;
+    while (true)
+    {
+        std::cout << prompt;
+        std::getline(std::cin, input);
+        std::istringstream iss(input);
+        char extra;
+        if (!(iss >> value) || (iss >> extra) || (value <= 0))
+        {
+            std::cout << "Invalid input! Please enter a positive integer.\n";
+            continue;
+        }
+        return value;
+    }
+}
+
 int main()
 {
     auto board = makeBoard();
-    GameStatus status = GameStatus::ONGOING;
 
-    while (status == GameStatus::ONGOING)
+    while (true)
     {
         printBoard(board);
         Cell token = getCurrentToken(board);
 
         std::cout << "Player " << ((token == Cell::X) ? "X" : "O") << "'s turn!\n";
 
-        int row, col;
-        std::cout << "Row: ";
-        std::cin >> row;
-        std::cout << "Col: ";
-        std::cin >> col;
-
-        if (!play(board, row - 1, col - 1, token))
+       
+        while (true)
         {
-            std::cout << "Invalid move, try again\n";
-            continue;
+            std::cout << "Which column would you like to place your piece in" << std::endl;
+            int col = getPositiveInteger("Input: ");
+
+            if (col < 1 || col > board.at(0).size())
+            {
+                std::cout << "Invalid column, try again.\n";
+                continue;
+            }
+
+            if (play(board, col - 1, token))
+            {
+                break;
+            }
+            else
+            {
+                std::cout << "Column full, choose another.\n";
+            }
+            line();
         }
 
-        status = checkWin(board);
-    }
+        GameStatus status = checkWin(board);
+        if (status != GameStatus::ONGOING)
+        {
+            printBoard(board);
 
-    printBoard(board);
-
-    if (status == GameStatus::X_WON)
-    {
-        std::cout << "Player X wins!\n";
-    }
-    else if (status == GameStatus::O_WON)
-    {
-        std::cout << "Player O wins!\n";
-    }
-    else
-    {
-        std::cout << "It's a draw!\n";
+            line();
+            if (status == GameStatus::X_WON)
+            {
+                std::cout << "Player X wins!\n";
+            }
+            else if (status == GameStatus::O_WON)
+            {
+                std::cout << "Player O wins!\n";
+            }
+            else
+            {
+                std::cout << "It's a draw!\n";
+            }
+            break;
+        }
+        line();
     }
 }
