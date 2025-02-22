@@ -30,4 +30,9 @@
   <ItemGroup>
     <None Include="fixes.md" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Pictures\Saved Pictures\proof.png">
+      <Filter>Source Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
