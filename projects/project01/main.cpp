@@ -10,6 +10,8 @@ I am responsibility for this code's functionality and accuracy rests entirely wi
 #include <vector>
 #include <sstream>
 #include <limits>
+#include <thread>
+#include <chrono>
 
 enum class Cell { BLANK, X, O };
 enum class GameStatus { ONGOING, X_WON, O_WON, DRAW };
@@ -19,6 +21,16 @@ void line()
     std::cout << std::endl;
     std::cout << "---------------------------------------------------------" << std::endl;
     std::cout << std::endl;
+}
+
+void menu()
+{
+	std::cout << "Welcome to Connect Four!\n"
+	"The game is played on a 7x6 board.\n"
+	"Players take turns dropping their pieces into a column.\n"
+    "The first player to get four of their pieces in a row wins!\n"
+	"Player X goes first." << std::endl;
+	line();
 }
 
 std::vector<std::vector<Cell>> makeBoard(int rows = 7, int columns = 6)
@@ -174,14 +186,70 @@ int getPositiveInteger(const std::string& prompt)
     }
 }
 
+int exitOption()
+{
+    std::string input;
+    std::cout << "Would you like to play again? (Y/N): ";
+    std::getline(std::cin, input);
+    if (input == "Y" || input == "y")
+    {
+        return 1;
+    }
+    else if (input == "N" || input == "n")
+    {
+        std::cout << "Goodbye!" << std::endl;
+        return 2;
+    }
+    else
+    {
+        std::cout << "Invalid input! Please enter Y or N." << std::endl;
+        exitOption();
+    }
+}
+
+
 int main()
 {
+    line();
+    menu();
+    std::this_thread::sleep_for(std::chrono::seconds(2));
     auto board = makeBoard();
-
+    
     while (true)
     {
         printBoard(board);
         Cell token = getCurrentToken(board);
+
+
+        GameStatus status = checkWin(board);
+        if (status != GameStatus::ONGOING)
+        {
+            printBoard(board);
+
+            line();
+            if (status == GameStatus::X_WON)
+            {
+                std::cout << "Player X wins!\n";
+            }
+            else if (status == GameStatus::O_WON)
+            {
+                std::cout << "Player O wins!\n";
+            }
+            else
+            {
+                std::cout << "It's a draw!\n";
+            }
+      
+			if (exitOption() == 1)
+			{
+				board = makeBoard();
+				continue;
+			}
+			else
+			{
+				break;
+			}
+        }
 
         std::cout << "Player " << ((token == Cell::X) ? "X" : "O") << "'s turn!\n";
 
@@ -206,27 +274,7 @@ int main()
                 std::cout << "Column full, choose another.\n";
             }
             line();
-        }
 
-        GameStatus status = checkWin(board);
-        if (status != GameStatus::ONGOING)
-        {
-            printBoard(board);
-
-            line();
-            if (status == GameStatus::X_WON)
-            {
-                std::cout << "Player X wins!\n";
-            }
-            else if (status == GameStatus::O_WON)
-            {
-                std::cout << "Player O wins!\n";
-            }
-            else
-            {
-                std::cout << "It's a draw!\n";
-            }
-            break;
         }
         line();
     }
