@@ -35,7 +35,7 @@ int main()
         std::cout << "Which potion to add liquid to (Red or Blue)? (Type 'Done' to finish): ";
         std::cin >> choice;
 
-      
+
 
         while (!isValidPotionChoice(choice)) {
             line();
