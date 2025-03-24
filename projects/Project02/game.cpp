@@ -125,3 +125,34 @@ void Game::reset()
     currentPlayer = 'X';
     gameOver = false;
 }
+
+int Game::validInput()
+{
+    int col;
+    std::cout << "Enter column (1-7): ";
+
+    while (!(std::cin >> col) || col < 1 || col > 7)
+    {
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+        std::cout << "Invalid input. Enter a column number (1-7): ";
+    }
+
+    return col;
+}
+
+char Game::validYesNo()
+{
+    char input;
+    std::cin >> input;
+
+    while (input != 'y' && input != 'Y' && input != 'n' && input != 'N')
+    {
+        std::cin.clear();
+        std::cin.ignore(10000, '\n');
+        std::cout << "Invalid input. Enter 'y' or 'n': ";
+        std::cin >> input;
+    }
+
+    return input;
+}

@@ -23,5 +23,7 @@ public:
     bool isGameOver() const;
     char getWinner() const;
     void reset();
+    int validInput();
+    char validYesNo();
 };
 
