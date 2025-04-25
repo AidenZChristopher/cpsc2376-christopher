@@ -88,7 +88,7 @@ classDiagram
         +void seeRentList() const
     }
 
-    Inventory "1" --> "*" Boardgame : has
-    Inventory "1" --> "*" Customer : has
+    Inventory "1" --> "*" Boardgame : uses
+    Inventory "1" --> "*" Customer : uses
 ```
 
