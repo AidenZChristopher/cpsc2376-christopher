@@ -61,7 +61,7 @@ private:
     std::vector<Boardgame> games_;
     std::vector<Customer> customers_;
 };
-
+```
 ```mermaid
 classDiagram
     class Boardgame {
@@ -88,7 +88,7 @@ classDiagram
         +void seeRentList() const
     }
 
-    Inventory "1" --> "*" Boardgame : uses
-    Inventory "1" --> "*" Customer : uses
+    Inventory --> Boardgame : uses
+    Inventory --> Customer : uses
 ```
 
