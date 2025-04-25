@@ -6,8 +6,12 @@ customers has what,and track when games are returned.
 Step 2
 - Nouns: Boardgame, Customer, Inventory, 
 - Attributes:
-	- boardgame: Title, In use
-	- customer: boardgame, Return Date
+	- boardgame: title, in use
+	- customer: name, renting status, return date
 	- invetory: boardgame copies
 - Verbs:
-	- 
+	- See inventory 
+	- checkout
+	- see rent list
+	- return boardgame
+
