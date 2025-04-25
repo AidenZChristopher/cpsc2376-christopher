@@ -62,5 +62,33 @@ private:
     std::vector<Customer> customers_;
 };
 
+```mermaid
+classDiagram
+    class Boardgame {
+        +Boardgame(string title)
+        +string getTitle() const
+        +bool isBeingRented() const
+        +void setRent(bool beingRented)
+    }
 
+    class Customer {
+        +Customer(string name)
+        +string getName() const
+        +bool isRenting() const
+        +string getReturnDate() const
+        +void rentGame(string returnDate)
+        +void returnGame()
+    }
+
+    class Inventory {
+        +void addGame(const Boardgame& game)
+        +void seeInventory() const
+        +bool checkoutGame(string gameTitle, Customer& customer, string returnDate)
+        +bool returnGame(string gameTitle, Customer& customer)
+        +void seeRentList() const
+    }
+
+    Inventory "1" --> "*" Boardgame : has
+    Inventory "1" --> "*" Customer : has
+```
 
