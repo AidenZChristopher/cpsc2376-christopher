@@ -19,4 +19,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Pictures\Saved Pictures\bouncingrectangle.PNG">
+      <Filter>Source Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
