@@ -17,6 +17,7 @@ int main()
 
     while (choice == 'y' || choice == 'Y')
     {
+
         while (!game.isGameOver())
         {
             game.displayBoard();
