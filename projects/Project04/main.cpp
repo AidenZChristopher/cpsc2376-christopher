@@ -1,10 +1,14 @@
 // main.cpp
+#define SDL_MAIN_HANDLED
+#include <SDL2/SDL.h>
 #include "Engine.h"
 #include "game.h"
-#include <SDL2/SDL.h>
 
 int main() {
-    Engine engine("Connect Four", 700, 700);
+    Engine engine("Connect Four", 700, 700,
+        "Ubuntu-Bold.ttf",  // this must match your file’s name
+        24,
+        "move.wav");
     Game game;
     bool running = true;
     int selectedCol = 0;
@@ -27,7 +31,7 @@ int main() {
                     game.play(selectedCol);
                     engine.playSound();
                 }
-                else if ((key == SDLK_r || key == SDLK_R)) {
+                else if (key == SDLK_r) {
                     game.reset();
                     selectedCol = 0;
                 }
@@ -43,7 +47,6 @@ int main() {
                 }
             }
         }
-
         engine.clear(SDL_Color{ 0, 0, 0, 255 });
         game.draw(engine);
 
