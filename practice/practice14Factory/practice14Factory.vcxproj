@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{254986dc-b5f7-427c-b6a9-085825f16d5f}</ProjectGuid>
-    <RootNamespace>practice14</RootNamespace>
+    <ProjectGuid>{b5378d20-1833-4938-b7a7-06d89b36778e}</ProjectGuid>
+    <RootNamespace>practice14Factory</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>practice14Strategy</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -128,14 +127,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\strategyPattern\censorFilter.h" />
-    <ClInclude Include="..\strategyPattern\filterStrategy.h" />
-    <ClInclude Include="..\strategyPattern\reverseFilter.h" />
-    <ClInclude Include="..\strategyPattern\uppercaseFilter.h" />
-    <ClInclude Include="..\strategyPattern\vowelRemover.h" />
+    <ClCompile Include="circle.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="rectangle.cpp" />
+    <ClCompile Include="square.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\strategyPattern\main.cpp" />
+    <ClInclude Include="circle.h" />
+    <ClInclude Include="rectangle.h" />
+    <ClInclude Include="shape.h" />
+    <ClInclude Include="shapeFactory.h" />
+    <ClInclude Include="square.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="input.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
