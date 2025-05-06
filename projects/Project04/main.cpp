@@ -61,17 +61,18 @@ int main() {
         }
         previousStatus = status;
 
-        engine.clear(SDL_Color{ 0, 0, 0, 255 });
+        engine.clear(SDL_Color{ 0, 0, 255, 255 });
         game.draw(engine);
+
 
         engine.drawText("Player 1: " + std::to_string(scoreX), 70, 10, SDL_Color{ 255, 0, 0, 255 });
         engine.drawText("Player 2: " + std::to_string(scoreO), 610, 10, SDL_Color{ 255, 255, 0, 255 });
 
         if (status == Game::Status::XWin) {
-            engine.drawText("Player 1 Wins!", 350, 50, SDL_Color{ 255, 255, 255, 255 });
+            engine.drawText("Player 1 Wins!", 350, 50, SDL_Color{ 255, 0, 0, 255 });
         }
         else if (status == Game::Status::OWin) {
-            engine.drawText("Player 2 Wins!", 350, 50, SDL_Color{ 255, 255, 255, 255 });
+            engine.drawText("Player 2 Wins!", 350, 50, SDL_Color{ 255, 255, 0, 255 });
         }
         else if (status == Game::Status::Draw) {
             engine.drawText("Draw!", 350, 50, SDL_Color{ 255, 255, 255, 255 });

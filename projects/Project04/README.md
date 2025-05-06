@@ -13,10 +13,11 @@ Connect Four is a two-player vertical grid game implemented in C++ using SDL2. P
 
 ## 🖼️ Screenshot
 
-![Screenshot of Connect Four](screenshot.png)
+![Screenshot of Connect Four](connect4.png)
 
 ## ✨ Extra Features
 
 - Sound effects on disc placement and win  
 - Scoreboard tracking wins for Player 1 and Player 2  
 - Draw detection when the board fills with no winner  
+- Highlights winning pieces
