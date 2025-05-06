@@ -7,7 +7,7 @@ Connect Four is a two-player vertical grid game implemented in C++ using SDL2. P
 ## 🎮 Controls
 
 - ← / → arrow keys to move the column selector  
-- Press **Enter** to drop a disc or Click on a column with the mouse to drop a disc  
+- Press **Enter** to drop a disc or **Click** on a column with the mouse to drop a disc  
 - Press **R** to restart the game  
 - Press **Esc** to exit
 
