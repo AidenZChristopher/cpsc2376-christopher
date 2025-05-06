@@ -13,7 +13,7 @@ Connect Four is a two-player vertical grid game implemented in C++ using SDL2. P
 
 ## 🖼️ Screenshot
 
-![Screenshot of Connect Four](connect.png)
+![Screenshot of Connect Four](connect.PNG)
 
 ## ✨ Extra Features
 
