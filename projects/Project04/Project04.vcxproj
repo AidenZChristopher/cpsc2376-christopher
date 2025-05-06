@@ -140,7 +140,7 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Pictures\Saved Pictures\connect4.PNG" />
+    <Image Include="..\..\..\..\Pictures\Saved Pictures\connect.PNG" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

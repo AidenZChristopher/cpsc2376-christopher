@@ -39,7 +39,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\Pictures\Saved Pictures\connect4.PNG">
+    <Image Include="..\..\..\..\Pictures\Saved Pictures\connect.PNG">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
