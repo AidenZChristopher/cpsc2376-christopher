@@ -1,11 +1,16 @@
-// game.cpp
 #include "game.h"
 
-Game::Game() : board(rows, std::vector<char>(cols, ' ')), currentPlayer('X'), gameStatus(Status::Running) {}
+Game::Game()
+    : board(rows, std::vector<char>(cols, ' ')),
+    currentPlayer('X'),
+    gameStatus(Status::Running)
+{
+}
 
 void Game::play(int col) {
     if (gameStatus != Status::Running) return;
     if (!isValidMove(col)) return;
+    winningPositions.clear();
     int row = dropPiece(col);
     if (checkWin(row, col)) {
         gameStatus = (currentPlayer == 'X') ? Status::XWin : Status::OWin;
@@ -25,16 +30,23 @@ Game::Status Game::status() const {
 void Game::draw(Engine& engine) const {
     for (int r = 0; r < rows; r++) {
         for (int c = 0; c < cols; c++) {
-            int centerX = c * 100 + 50;
-            int centerY = (r + 1) * 100 + 50;
-            engine.drawRectangle(centerX, centerY, 95, 95, SDL_Color{ 0, 0, 255, 255 });
+            int x = c * 100 + 50;
+            int y = (r + 1) * 100 + 50;
+            engine.drawRectangle(x, y, 95, 95, SDL_Color{ 200, 200, 200, 255 });
             char t = board[r][c];
             if (t == 'X') {
-                engine.drawCircle(centerX, centerY, 40, SDL_Color{ 255, 0, 0, 255 });
+                engine.drawCircle(x, y, 40, SDL_Color{ 255,0,0,255 });
             }
             else if (t == 'O') {
-                engine.drawCircle(centerX, centerY, 40, SDL_Color{ 255, 255, 0, 255 });
+                engine.drawCircle(x, y, 40, SDL_Color{ 255,255,0,255 });
             }
+        }
+    }
+    if (gameStatus == Status::XWin || gameStatus == Status::OWin) {
+        for (auto& p : winningPositions) {
+            int cx = p.second * 100 + 50;
+            int cy = (p.first + 1) * 100 + 50;
+            engine.drawCircleOutline(cx, cy, 45, SDL_Color{ 0,0,0,255 });
         }
     }
 }
@@ -43,6 +55,7 @@ void Game::reset() {
     board.assign(rows, std::vector<char>(cols, ' '));
     currentPlayer = 'X';
     gameStatus = Status::Running;
+    winningPositions.clear();
 }
 
 void Game::switchPlayer() {
@@ -70,31 +83,30 @@ bool Game::checkDraw() const {
     return true;
 }
 
-bool Game::checkWin(int row, int col) const {
-    return checkDirection(row, col, 1, 0)
-        || checkDirection(row, col, 0, 1)
-        || checkDirection(row, col, 1, 1)
-        || checkDirection(row, col, 1, -1);
+bool Game::checkWin(int row, int col) {
+    char sym = board[row][col];
+    const int dirs[4][2] = { {1,0},{0,1},{1,1},{1,-1} };
+    for (auto& d : dirs) {
+        int dr = d[0], dc = d[1];
+        std::vector<std::pair<int, int>> temp{ {row,col} };
+        for (int i = 1; i < 4; i++) {
+            int r = row + dr * i, c = col + dc * i;
+            if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] != sym) break;
+            temp.emplace_back(r, c);
+        }
+        for (int i = 1; i < 4; i++) {
+            int r = row - dr * i, c = col - dc * i;
+            if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] != sym) break;
+            temp.emplace_back(r, c);
+        }
+        if (temp.size() >= 4) {
+            winningPositions = temp;
+            return true;
+        }
+    }
+    return false;
 }
 
-bool Game::checkDirection(int row, int col, int dRow, int dCol) const {
-    char sym = board[row][col];
-    int count = 1;
-    for (int i = 1; i < 4; i++) {
-        int r = row + i * dRow;
-        int c = col + i * dCol;
-        if (r >= 0 && r < rows && c >= 0 && c < cols && board[r][c] == sym) {
-            count++;
-        }
-        else break;
-    }
-    for (int i = 1; i < 4; i++) {
-        int r = row - i * dRow;
-        int c = col - i * dCol;
-        if (r >= 0 && r < rows && c >= 0 && c < cols && board[r][c] == sym) {
-            count++;
-        }
-        else break;
-    }
-    return count >= 4;
+const std::vector<std::pair<int, int>>& Game::getWinningPositions() const {
+    return winningPositions;
 }
