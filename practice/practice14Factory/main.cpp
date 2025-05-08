@@ -56,5 +56,6 @@ int main()
     std::cout << "\nTotal valid shapes: " << shapes.size() << "\n";
     std::cout << "Total area: " << totalArea << "\n";
 
+
     return 0;
 }
